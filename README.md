@@ -3,19 +3,23 @@ VPlayer3D 0.0.1-ALPHA
 
 An Open Source Stand-Alone Video Player Based on <b><a href="http://www.webchimera.org/" target="_blank">WebChimera Player</a></b>
 
-How To Use
-==============
+## How To Use
 - Prerequisites
--- node.js
--- bower ```npm install bower -g```
+    - node.js
+    - bower ```npm install bower -g```
 
-Clone or download the zip file, and execute
+Clone or download the zip file, and execute.
+
 ```npm install```
+
 once everything is installed
+
 ```npm start```
 
-Some Hotkeys
-==============
+**NOTE:** only works in windows for the moment!
+
+## Some Hotkeys
+
 - ```Shift+Up``` moves subtitles up
 - ```Shift+Down``` moves subtitles down
 - ```Shift-Right``` Increase UI 3D depth
@@ -29,28 +33,27 @@ Some Hotkeys
 - ```F```/```F11``` Toggle fullscreen
 - ```G``` Decrease Subtitles delay
 - ```H``` Increase Subtitles delay
-- ```M``` Toggle Mute Volumef
+- ```M``` Toggle Mute Volume
 
 - ```Mouse Wheel Up/Down``` Increase / Decrease volume
 
-Features
-==============
+## Features
 - Dual Interface for 3D Movies (Top and Bottom / Side By Side) the mode is autodetected
 - Colors Controls (Contrast / Brightness / Gamma)
 - Opensubtitles.Org integration
 - Auto subtitles search
 - Drop files to be played (needs to be nice with the mouse, and appoint to the edges of the window)
+- Context menu for more options (Crop / aspect ration / zoom are disabled in UI 3DMode)
 
-Road-map
-==============
+## Road-map
 - Subtitles:
--- configurable online search languages (currently spa,eng)
+    - configurable online search languages (currently spa,eng)
 - Hotkeys Keyboard Mapper
 - Distribuible packages
--- Windows
--- Linux
--- Mac OS X
+    - Windows
+    - Linux
+    - Mac OS X
 - Better drop files (should be fixed in Qt)
 - Test
--- Linux
--- Mac OS X
+    - Linux
+    - Mac OS X
