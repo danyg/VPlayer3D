@@ -1,0 +1,6 @@
+module VPlayer3D
+Core 1.0 Core.js
+Subtitles 1.0 Subtitles.js
+Settings3D 1.0 Settings3D.js
+ContextMenu 1.0 ContextMenu.js
+App 1.0 AppImpl.js

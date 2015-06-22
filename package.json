@@ -1,0 +1,28 @@
+{
+	"name": "VPlayer3D",
+	"version": "0.0.1-ALPHA",
+	"description": "VPlayer3D, a player suitable for 3D movies in HSBS or Half-OU",
+	"main": "app://vplayer3d/index.html",
+	"window": {
+		"frame": false,
+		"toolbar": false,
+		"width": 1024,
+		"height": 620
+	},
+	"scripts": {
+	"install": "bower install",
+		"start": "nw"
+	},
+	"webkit": {
+		"plugin": true
+	},
+	"dependencies": {
+		"dgsubtitle": "0.0.9",
+		"iconv-lite": "^0.4.10",
+		"is-utf8": "^0.2.0",
+		"iso-639-2": "^0.2.0",
+		"nw": "^0.12.2",
+		"opensubtitles-client": "^2.2.0",
+		"q": "^1.4.1"
+	}
+}
