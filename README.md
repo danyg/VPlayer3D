@@ -46,6 +46,10 @@ once everything is installed
 - Context menu for more options (Crop / aspect ration / zoom are disabled in UI 3DMode)
 
 ## Road-map
+- Install script for (should download the proper Webchimera plugin files)
+    - Windows
+    - Linux
+    - Mac OS X
 - Subtitles:
     - configurable online search languages (currently spa,eng)
 - Hotkeys Keyboard Mapper
