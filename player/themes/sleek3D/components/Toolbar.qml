@@ -40,9 +40,9 @@ VPlayer3DItems.BindedItem {
 	height: fullscreen ? 32 : 30
 
 	Loader.ToolbarBackground {
-		id: toolbarBackground
-		color: VPlayer3D.Core.color(ui.colors.base)
-		opacity: ui.settings.toolbar.opacity
+		id: toolbarBackground;
+		color: VPlayer3D.Core.color(ui.colors.base);
+		opacity: ui.settings.toolbar.opacity;
 	}
 
 	// Start Left Side Buttons in Toolbar

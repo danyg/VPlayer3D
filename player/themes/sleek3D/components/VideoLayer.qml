@@ -12,6 +12,7 @@ VlcVideoSurface {
 	width: parent.width;
 	height: parent.height;
 	fillMode: VlcVideoSurface.PreserveAspectFit
+	visible: vlcPlayer.state >= 2 && vlcPlayer.state <=5;
 
 	// onWidthChanged: { digiZoom.zoomNewPosition(); pip.pipNewPosition(); }
 	// onHeightChanged: { digiZoom.zoomNewPosition(); pip.pipNewPosition(); }

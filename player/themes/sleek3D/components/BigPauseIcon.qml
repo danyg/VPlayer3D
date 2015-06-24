@@ -13,7 +13,6 @@ VPlayer3DItems.BindedItem {
 	property alias iconColor: icon.color
 
 	property var animTime: 300
-	property var changeState: false
 
 	anchors.left: parent.left
 	anchors.top: parent.top
@@ -23,7 +22,6 @@ VPlayer3DItems.BindedItem {
 	property var _baseTop: (parent.height - root.height) / 2
 	anchors.leftMargin: root._baseLeft
 	anchors.topMargin: root._baseTop
-	// anchors.leftMargin: changeState ? _offset * 10 : 0
 
 	visible: false
 
@@ -87,7 +85,6 @@ VPlayer3DItems.BindedItem {
 	// End Play Icon Effect when Visible
 
 	function show(){
-
 		_show();
 		_bindedComponent._show();
 	}

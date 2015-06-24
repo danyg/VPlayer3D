@@ -6,10 +6,12 @@
 * @author Daniel Goberitz <dalgo86@gmail.com>
 */
 
+/* jshint ignore:start */
 .import "./Core.js" as Core
 // .import "./Subtitles.js" as Subtitles
 // .import "./Settings3D.js" as Settings3D
 .pragma library
+/* jshint ignore:end */
 // ****************************************************************************
 // Initialization METHODS
 // ****************************************************************************
@@ -282,7 +284,7 @@ function setVolume(vol, dontStoreIt){
 	if(dontStoreIt !== true){
 		trigger('volumeChanged', vol);
 	}
-	infoMsg("Volume " + Math.round((125 * vol)/200) + "%");
+	infoMsg('Volume ' + Math.round((125 * vol)/200) + '%');
 }
 
 function setDefaultColorValues(){
@@ -348,7 +350,7 @@ function play(){
 // ****************************************************************************
 
 function infoMsg(msg, notClean){
-	if(!!Core.getComponent('topRightText')){
-		Core.getComponent('topRightText').setText(msg, notClean);
+	if(!!Core.getComponent('OSD_topRight')){
+		Core.getComponent('OSD_topRight').setText(msg, notClean);
 	}
 }

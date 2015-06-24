@@ -14,11 +14,13 @@ import "../VPlayer3D" as VPlayer3D
 Rectangle {
 	id: root
 
-	property var componentType: 'AbstractItem'
-	property alias kind: root._kind
-	property var _kind: ''
-	property alias bindedComponent: root._bindedComponent
-	property var _bindedComponent
+	property var componentType: 'AbstractItem';
+	property alias kind: root._kind;
+	property var _kind: '';
+	property alias bindedComponent: root._bindedComponent;
+	property var _bindedComponent;
+
+	property var animTime: 300;
 
 	property alias offset: root._offset
 	property var _offset: 0
@@ -59,4 +61,7 @@ Rectangle {
 		root.componentType = type;
 		VPlayer3D.Core.defineComponent(root.componentType, root);
 	}
+
+
+
 }

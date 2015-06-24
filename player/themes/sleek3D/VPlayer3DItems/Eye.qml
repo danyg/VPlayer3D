@@ -84,11 +84,6 @@ VPlayer3DItems.BindedItem {
 
 	Loader.ArtworkLayer { id: artwork } // Load Artwork Layer (if set with .addPlaylist)
 
-	Loader.TopCenterText {
-		id: buftext
-		fontColor: ui.colors.font
-		fontShadow: ui.colors.fontShadow
-	}
 
 	Loader.BigPauseIcon {
 		id: pausetog
@@ -111,10 +106,58 @@ VPlayer3DItems.BindedItem {
 		offset: root._offset
 	}
 
-	Loader.TopRightText {
-		id: volumebox
+	Loader.TopCenterText {
+		id: buftext
 		fontColor: ui.colors.font
 		fontShadow: ui.colors.fontShadow
+	}
+
+	VPlayer3DItems.OSD {
+		kind: 'topCenter'
+		fontColor: ui.colors.font
+		fontShadow: ui.colors.fontShadow
+
+		align: Text.AlignHCenter
+
+		anchors.top: parent.top;
+		anchors.left: parent.left;
+
+	}
+
+	VPlayer3DItems.OSD {
+		kind: 'topRight'
+		fontColor: ui.colors.font
+		fontShadow: ui.colors.fontShadow
+
+		align: Text.AlignRight
+
+		anchors.top: parent.top;
+		anchors.left: parent.left;
+
+	}
+
+	VPlayer3DItems.OSD {
+		id: clockOSD
+		kind: 'bottomRight'
+		fontColor: ui.colors.font
+		fontShadow: ui.colors.fontShadow
+
+		align: Text.AlignRight
+
+		anchors.left: parent.left;
+		anchors.bottom: root.bottom;
+		anchors.bottomMargin: 10;
+	}
+
+	Timer {
+		id: clockTimer;
+		interval: 1000;
+		repeat: true;
+		triggeredOnStart: true;
+		running: true;
+		onTriggered: {
+			clockOSD.setText(wjs.getHours(), true);
+		}
 	}
 
 	Loader.MouseSurface {

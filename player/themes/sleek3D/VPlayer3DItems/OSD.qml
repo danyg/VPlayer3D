@@ -1,22 +1,23 @@
 import QtQuick 2.1
 import QmlVlc 0.1
 
+import "../VPlayer3D" as VPlayer3D
 import "../VPlayer3DItems" as VPlayer3DItems
 
 VPlayer3DItems.BindedItem {
 	id: root
-	componentType: 'topRightText'
+	componentType: 'OSD'
 
 	property alias fontColor: textBox.color
 	property alias fontShadow: textBoxShadow.color
 	property alias changeText: textBox.text
+	property alias align: textBox.horizontalAlignment
 
 	property var fontSize: parent.height * 0.025;
 
 	width: parent.width;
-	height: 2 * root.fontSize;
-
-	anchors.topMargin: 10;
+	// height: 2 * root.fontSize;
+	height: 30;
 
 	color: "transparent"
 
@@ -134,5 +135,10 @@ VPlayer3DItems.BindedItem {
 		onTriggered: {
 			root.hide();
 		}
+	}
+
+	Component.onCompleted: {
+		// VPlayer3D.Core.log('!!! INITIATED', root.componentType);
+		root.show();
 	}
 }

@@ -52,11 +52,12 @@ Rectangle {
 
 	// Start on Buffering Changed
 	function onBuffering( percents ) {
-		core.getComponent('buftext').set('changeText', "Buffering " + percents +"%"); // Announce Buffering Percent
+		core.getComponent('OSD_topCenter').setText('Buffering ' + percents + '%'); // Announce Buffering Percent
 		settings.buffering = percents; // Set Global Variable "buffering"
 
 		if (percents >= 100) {
-			core.getComponent('buftext').set('changeText', ""); // Announce Buffering Percent
+			core.getComponent('OSD_topCenter').setText('')
+			core.getComponent('splashScreen').set('changeText', '');
 		}
 		if (percents == 100 && pauseAfterBuffer == 1) {
 			pauseAfterBuffer = 0;
@@ -207,7 +208,8 @@ Rectangle {
 
 			settings = settings;
 
-			core.getComponent('buftext').set('changeText', "Opening");
+			core.getComponent('OSD_topCenter').setText("Opening...");
+			core.getComponent('splashScreen').set('changeText', "Opening...");
 
 			if (lastItem != vlcPlayer.playlist.currentItem) lastItem = vlcPlayer.playlist.currentItem;
 			if (lastItem == -1) lastItem = 0;

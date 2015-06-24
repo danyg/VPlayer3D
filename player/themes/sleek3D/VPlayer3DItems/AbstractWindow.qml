@@ -27,7 +27,7 @@ VPlayer3DItems.BindedItem {
 	}
 
 	function _close(){
-		root.visible = false;
+		root.hide();
 	}
 
 	function open(){
@@ -37,7 +37,8 @@ VPlayer3DItems.BindedItem {
 	}
 
 	function _open(){
-		root.visible = true;
+		// root.visible = true;
+		root.show();
 	}
 
 	function toggle(){
@@ -48,7 +49,49 @@ VPlayer3DItems.BindedItem {
 		}
 	}
 
+	function show(){
+		root.visible = true;
+		root.state = 'visible';
+	}
+	function hide(){
+		root.state = 'hidden';
+	}
+
+	states: [
+		State {
+			name: "visible"
+			PropertyChanges {
+				target: root;
+				opacity: 1;
+			}
+		},
+		State {
+			name: "hidden"
+			PropertyChanges {
+				target: root;
+				opacity: 0;
+			}
+		}
+	]
+	transitions: Transition {
+		id: trans
+		PropertyAnimation {
+			id: anim
+			duration: root.animTime
+			targets: [root]
+			properties: 'opacity';
+		}
+
+		onRunningChanged: {
+			if(!trans.running){
+				root.visible = root.state === 'hidden' ? false : true;
+			}
+		}
+	}
+
 	Component.onCompleted: {
 		Manager.init(root);
+
+		root.state = 'hidden';
 	}
 }

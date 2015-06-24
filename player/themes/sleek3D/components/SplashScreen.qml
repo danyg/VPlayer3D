@@ -16,7 +16,8 @@ VPlayer3DItems.BindedItem {
 	property var eye;
 
 	anchors.fill: parent
-	visible: vlcPlayer.state < 3 ? true : false
+	// visible: vlcPlayer.state < 3 ? true : false
+	visible: vlcPlayer.state <= 1 || vlcPlayer.state >= 6;
 	// If Playlist is Open Show Top Text
 	Text {
 		id: openingtext
@@ -76,18 +77,8 @@ VPlayer3DItems.BindedItem {
 			triggeredOnStart: true;
 
 			onTriggered: {
-				VPlayer3D.Core.log('SplashScreen Timer:', playerlogo.opacity);
 				playerlogo.opacity = playerlogo.opacity !== .5 ? .5 : .2;
 			}
 		}
 	}
-
-
-	// Component.onCompleted: {
-	// 	VPlayer3D.Core.log('SplashScreen OnComplete:');
-	// 	root.visibleChanged.connect(function(){
-	// 		VPlayer3D.Core.log('SplashScreen Timer START:');
-	// 		timer.start();
-	// 	})
-	// }
 }
