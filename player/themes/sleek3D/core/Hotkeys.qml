@@ -256,8 +256,8 @@ Rectangle {
 
 		if (event.key == Qt.Key_I) {
 			if (typeof settings.preventKey[Qt.Key_I] === "undefined") {
-				app.infoMsg(wjs.getTime(vlcPlayer.time) + '/' + wjs.getTime(vlcPlayer.length) + ' | ' + wjs.getHours());
-
+				var v = core.getComponent('OSD_bottomRight').get('forceVisible');
+				core.getComponent('OSD_bottomRight').set('forceVisible', !v);
 			}
 		}
 		if (event.key == Qt.Key_G) {

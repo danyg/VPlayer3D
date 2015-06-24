@@ -137,12 +137,14 @@ VPlayer3DItems.BindedItem {
 	}
 
 	VPlayer3DItems.OSD {
-		id: clockOSD
-		kind: 'bottomRight'
-		fontColor: ui.colors.font
-		fontShadow: ui.colors.fontShadow
+		id: clockOSD;
+		kind: 'bottomRight';
+		fontColor: ui.colors.font;
+		fontShadow: ui.colors.fontShadow;
 
-		align: Text.AlignRight
+		align: Text.AlignRight;
+
+		forceVisible: false;
 
 		anchors.left: parent.left;
 		anchors.bottom: root.bottom;

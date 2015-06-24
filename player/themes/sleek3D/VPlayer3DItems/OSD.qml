@@ -14,6 +14,7 @@ VPlayer3DItems.BindedItem {
 	property alias align: textBox.horizontalAlignment
 
 	property var fontSize: parent.height * 0.025;
+	property var forceVisible: true;
 
 	width: parent.width;
 	// height: 2 * root.fontSize;
@@ -87,6 +88,9 @@ VPlayer3DItems.BindedItem {
 	}
 
 	function show(){
+		if(forceVisible === false){
+			return;
+		}
 		root.visible = true;
 		root.state = 'visible';
 	}
@@ -137,8 +141,22 @@ VPlayer3DItems.BindedItem {
 		}
 	}
 
+	onForceVisibleChanged: {
+		if(root.forceVisible){
+			root.show();
+		} else {
+			root.hide();
+		}
+	}
+
+
+
 	Component.onCompleted: {
 		// VPlayer3D.Core.log('!!! INITIATED', root.componentType);
-		root.show();
+		if(root.forceVisible){
+			root.show();
+		} else {
+			root.hide();
+		}
 	}
 }
