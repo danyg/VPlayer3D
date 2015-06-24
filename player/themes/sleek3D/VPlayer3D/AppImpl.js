@@ -196,7 +196,7 @@ var notUpdateSettings = false;
 
 function _observeSettings(){
 	settingsToStore.every(function(prop){
-		connectTo(settings[prop + 'Changed'], _triggerSettingsChange);
+		connectTo(settings[prop + 'Changed'], _triggerSettingsChange.bind(this, prop));
 		return true;
 	});
 
@@ -218,7 +218,8 @@ function _onSettings(sets){
 	notUpdateSettings = false;
 }
 
-function _triggerSettingsChange(){
+function _triggerSettingsChange(settingName){
+Core.log('Settings Changed:', settingName, ' Able to Update:', notUpdateSettings);
 	if(notUpdateSettings){
 		return;
 	}
@@ -324,6 +325,11 @@ function setVideoTime(time){
 	}
 	vlcPlayer.time = time;
 	_emit('videoSeeked', time);
+}
+
+function setSubtitlesPosition(pos){
+	settings.subtitlesBottomOffset += pos;
+	app.infoMsg('Subtitles position '+ settings.subtitlesBottomOffset);
 }
 
 function pause(){

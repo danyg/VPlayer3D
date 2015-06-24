@@ -157,12 +157,12 @@ Rectangle {
 			}
 			else if (event.key == Qt.Key_Up) {
 				if (typeof settings.preventKey[Qt.ShiftModifier+"+"+Qt.Key_Right] === "undefined") {
-					settings.subtitlesBottomOffset += 5;
+					app.setSubtitlesPosition(5);
 					return;
 				}
 			} else if (event.key == Qt.Key_Down) {
 				if (typeof settings.preventKey[Qt.ShiftModifier+"+"+Qt.Key_Left] === "undefined") {
-					settings.subtitlesBottomOffset -= 5;
+					app.setSubtitlesPosition(-5);
 					return;
 				}
 			}

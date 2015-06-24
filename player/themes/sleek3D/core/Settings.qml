@@ -40,7 +40,7 @@ QtObject {
 	property var downloaded: 0;
 	property var customLength: 0;
 	property var newProgress: 0;
-	property var openingText: "Loading Resource";
+	property var openingText: "";
 	property variant preventKey: [];
 	property variant preventClicked: [];
 	property variant aspectRatios: ["Default", "1:1", "4:3", "16:9", "16:10", "2.21:1", "2.35:1", "2.39:1", "5:4"];

@@ -152,7 +152,6 @@ define([
 			});
 			opensubtitles.downloader.once('downloaded', function(data){
 				console.log('DOWNLOADED', data);
-				clearTimeout(watchDog);
 
 				me.fsPath = data.file;
 				me.downloaded = true;

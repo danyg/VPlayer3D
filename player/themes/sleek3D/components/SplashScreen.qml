@@ -12,7 +12,8 @@ VPlayer3DItems.BindedItem {
 	property alias fontShadow: loadingFont.styleColor
 	property alias iconOpacity: playerlogo.opacity
 	property alias changeText: loadingFont.text
-	signal logoEffect
+
+	property var eye;
 
 	anchors.fill: parent
 	visible: vlcPlayer.state < 3 ? true : false
@@ -30,42 +31,63 @@ VPlayer3DItems.BindedItem {
 
 	Rectangle {
 		anchors.centerIn: parent
-		width: 1
-		height: settings.multiscreen == 1 ? fullscreen ? 100 : 76 : 100 // Required for Multiscreen
+		width: parent.height * .75
+		height: parent.height * .75
 		color: "transparent"
-		Rectangle {
-			Image {
-				anchors.top: parent.top
-				anchors.horizontalCenter: parent.horizontalCenter
-				source: "http://webchimera.org/images/player/player_logo_small.png"
+
+
+		Image {
+			id: playerlogo
+			anchors.fill: parent
+			anchors.top: parent.top
+			anchors.horizontalCenter: parent.horizontalCenter
+
+			fillMode: Image.PreserveAspectFit;
+
+			source: '../images/Logo' + (root.eye === VPlayer3D.Settings3D.c_LEFT_EYE ? 'L' : 'R') + '.png'
+			// source: '../images/arrow.png';
+			opacity: .5;
+
+			Behavior on opacity { PropertyAnimation { duration: 2000} }
+		}
+		Text {
+			id: loadingFont
+			visible: settings.multiscreen == 1 ? fullscreen ? vlcPlayer.state == 1 || vlcPlayer.state == 0 ? true : settings.buffering > 0 && settings.buffering < 100 ? true : false : false : vlcPlayer.state == 1 || vlcPlayer.state == 0 ? true : settings.buffering > 0 && settings.buffering < 100 ? true : false // Required for Multiscreen
+
+			anchors.bottom: parent.bottom
+			anchors.bottomMargin: 40;
+			anchors.leftMargin: 5 + root._offset;
+
+			anchors.horizontalCenter: parent.horizontalCenter
+
+			text: settings.openingText
+			font.pointSize: fullscreen ? 14 : 13
+			font.weight: Font.DemiBold
+			color: openingtext.color
+			style: Text.Outline
+			styleColor: UI.colors.fontShadow
+		}
+
+		Timer {
+			id: timer;
+			interval: 2500;
+			running: root.visible;
+			repeat: true;
+			triggeredOnStart: true;
+
+			onTriggered: {
+				VPlayer3D.Core.log('SplashScreen Timer:', playerlogo.opacity);
+				playerlogo.opacity = playerlogo.opacity !== .5 ? .5 : .2;
 			}
-			Image {
-				id: playerlogo
-				anchors.top: parent.top
-				anchors.horizontalCenter: parent.horizontalCenter
-				opacity: 0
-				Behavior on opacity { PropertyAnimation { duration: 600} }
-				source: "http://webchimera.org/images/player/player_logo_small_h.png"
-			}
-			Text {
-				id: loadingFont
-				visible: settings.multiscreen == 1 ? fullscreen ? vlcPlayer.state == 1 || vlcPlayer.state == 0 ? true : settings.buffering > 0 && settings.buffering < 100 ? true : false : false : vlcPlayer.state == 1 || vlcPlayer.state == 0 ? true : settings.buffering > 0 && settings.buffering < 100 ? true : false // Required for Multiscreen
-				anchors.top: parent.top
-				anchors.topMargin: 80
-				anchors.horizontalCenter: parent.horizontalCenter
-				text: settings.openingText
-				font.pointSize: fullscreen ? 14 : 13
-				font.weight: Font.DemiBold
-				color: openingtext.color
-				style: Text.Outline
-				styleColor: UI.colors.fontShadow
-			}
-			// Start Loading Logo Fade Effect
-			Timer {
-				interval: 700; running: true; repeat: true
-				onTriggered: root.logoEffect();
-			}
-			// End Loading Logo Fade Effect
 		}
 	}
+
+
+	// Component.onCompleted: {
+	// 	VPlayer3D.Core.log('SplashScreen OnComplete:');
+	// 	root.visibleChanged.connect(function(){
+	// 		VPlayer3D.Core.log('SplashScreen Timer START:');
+	// 		timer.start();
+	// 	})
+	// }
 }

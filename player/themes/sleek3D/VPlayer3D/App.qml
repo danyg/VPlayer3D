@@ -79,6 +79,10 @@ Item {
 		return VPlayer3D.App.setVideoTime.apply(VPlayer3D.App, arguments);
 	}
 
+	function setSubtitlesPosition(){
+		return VPlayer3D.App.setSubtitlesPosition.apply(VPlayer3D.App, arguments);
+	}
+
 	function pause(){
 		return VPlayer3D.App.pause.apply(VPlayer3D.App, arguments);
 	}

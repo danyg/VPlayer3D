@@ -92,7 +92,7 @@ function acquire(item){
 
 var lastTrackIx = 0;
 function setDelay(delay){
-	settings.subDelay = settings.subDelay;
+	settings.subDelay = delay;
 	_resetLastTrackIx();
 
 	// not used and performance issue

@@ -102,10 +102,13 @@ VPlayer3DItems.BindedItem {
 
 	Loader.SplashScreen {
 		id: splashScreen
+
 		color: ui.colors.videoBackground
 		fontColor: ui.colors.font
 		fontShadow: ui.colors.fontShadow
-		onLogoEffect: wjs.fadeLogo()
+
+		eye: root._eye
+		offset: root._offset
 	}
 
 	Loader.TopRightText {

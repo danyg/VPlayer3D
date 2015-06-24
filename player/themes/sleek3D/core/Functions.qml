@@ -506,16 +506,6 @@ core.warn('</wjs.setText DEPRECATED>');
 	}
 	// End Set Text to Upper Right Text Element (fades out after 300ms)
 
-	// Fade Logo In and Out in Splash Screen
-	function fadeLogo() {
-		if (core.getComponent('splashScreen').iconOpacity == 1) {
-			core.getComponent('splashScreen').set('iconOpacity', 0);
-		} else {
-			core.getComponent('splashScreen').set('iconOpacity', 1);
-		}
-	}
-	// End Fade Logo In and Out in Splash Screen
-
 	// Refresh Mute Icon
 	function refreshMuteIcon() {
 		core.getComponent('volheat').setVolume(
