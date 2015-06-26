@@ -21,9 +21,11 @@ define([
 		this.subIxBySource = {};
 
 		var pref = {};
-		orderPreference.forEach(function(item, index){
-			pref[item] = index;
-		});
+		if(!!orderPreference){
+			orderPreference.forEach(function(item, index){
+				pref[item] = index;
+			});
+		}
 		this._orderPreference = pref;
 
 		this.json = [];
@@ -37,7 +39,8 @@ define([
 
 	SubList.prototype.push = function(subObj){
 		var ix;
-		if(subObj instanceof SubObj){
+		// if(subObj instanceof SubObj){
+		if(subObj.constructor.name === 'SubObj'){ // fucking context change
 			if(!this.subsByLangId.hasOwnProperty(subObj.getLangId())){
 				this.subsByLangId[subObj.getLangId()] = [];
 			}
@@ -53,6 +56,16 @@ define([
 			this.subIxBySource[subObj.getSource()].push(ix);
 		} else {
 			throw new TypeError('Error trying to push a non SubObj in a SubList');
+		}
+	};
+
+	SubList.prototype.concat = function(subList){
+		if(subList.constructor.name === 'SubList'){ // fucking context change
+			for(var i = 0; i < subList.length; i++){
+				this.push(subList[i]);
+			}
+		} else {
+			throw new TypeError('SubList.concat error the object sent is not a SubList');
 		}
 	};
 

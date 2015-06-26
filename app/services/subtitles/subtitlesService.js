@@ -161,15 +161,13 @@ define([
 
 		app.trigger('searchingSubtitles');
 		me._subList.cleanBySource('OpenSubtitles.org');
+		me._subList.cleanBySource('thesubdb.com');
 
 		searchObj.search()
 			.then(function(results){
+console.log('Subtitles Search:', results);
 				if(results.length > 0){
-					results.forEach(function(item){
-						me._subList.push(
-							me._subList.getObj().formOSSearch(item)
-						);
-					});
+					me._subList.concat(results);
 
 					app.trigger('subtitlesFound',results.length);
 				} else {

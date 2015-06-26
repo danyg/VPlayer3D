@@ -13,5 +13,9 @@ define(function(){
 
 	window.console.log('DEBUG MODE: ON!');
 
+	process.on('uncaughtException', function(e){
+		console.error(e.message, e.stack);
+	});
+
 	return true;
 });

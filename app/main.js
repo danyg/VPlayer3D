@@ -9,22 +9,29 @@
 
 	'use strict';
 
-	var vendor_path = '../vendor';
-
-	requirejs.config({
-		baseUrl: '/app',
-		paths: {
-			// debug: 'debugOn',
-			debug: 'debugOff',
-			wjs: '../player/webchimera',
-			domReady: vendor_path + '/domReady/domReady'
-		},
-		shim:{
-			wjs: {
-				exports: 'wjs'
+	var vendor_path = '../vendor',
+		config = {
+			baseUrl: '/app',
+			paths: {
+				// debug: 'debugOff',
+				debug: 'debugOn',
+				wjs: '../player/webchimera',
+				domReady: vendor_path + '/domReady/domReady'
+			},
+			shim:{
+				wjs: {
+					exports: 'wjs'
+				}
 			}
 		}
-	});
+	;
+
+	if(process.argv.indexOf('--dev') !== -1){
+		config.paths.debug = 'debugOn';
+	}
+
+
+	requirejs.config(config);
 
 	requirejs([
 		'moduleLoader',

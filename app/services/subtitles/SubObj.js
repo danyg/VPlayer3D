@@ -15,6 +15,12 @@ define([
 
 	'use strict';
 
+	var SOURCE_OS = 'OpenSubtitles.org',
+		SOURCE_SUBDB = 'thesubdb.com',
+		SOURCE_FS = 'FileSystem',
+		SUBRATING_NA = 'N/A'
+	;
+
 	var path = require('path'),
 		fs = require('fs'),
 		os = require('os'),
@@ -53,9 +59,26 @@ define([
 		this.episode = rawData.SeriesEpisode;
 		this.subFileName = rawData.SubFileName;
 
-		this.source = 'OpenSubtitles.org';
+		this.source = SOURCE_OS;
 
 		this.rawData = rawData;
+		return this;
+	};
+
+	SubObj.prototype.formSubDBSearch = function(rawData){
+		var langObj = utils.iso6391to6392(rawData.lang);
+
+		this.movieName = rawData.movieName;
+		this.languageName = langObj.name;
+		this.subRating = SUBRATING_NA;
+
+		this.languageId = langObj.iso6392;
+		this.subFileName = rawData.movieName + '-' + langObj.iso6392 + '.srt';
+
+		this.source = SOURCE_SUBDB;
+
+		this.rawData = rawData;
+
 		return this;
 	};
 
@@ -84,14 +107,14 @@ define([
 		this.fsPath = subFile;
 		this.movieName = fileNameWoExt;
 		this.languageName = langName;
-		this.subRating = 'N/A';
+		this.subRating = SUBRATING_NA;
 
 		this.languageId = lang;
 		this.season = s;
 		this.episode = e;
 		this.subFileName = fileName;
 
-		this.source = 'FileSystem';
+		this.source = SOURCE_FS;
 
 		this.downloaded = true;
 
@@ -126,29 +149,31 @@ define([
 	};
 
 	SubObj.prototype.download = function(filePath){
+		if(this.source === SOURCE_OS){
+			return this._downloadOS(filePath);
+		} else if(this.source === SOURCE_SUBDB){
+			return this._downloadSubDB(filePath);
+		} else {
+			var dfd = utils.defer();
+			dfd.resolve();
+			return dfd;
+		}
+	};
+
+	SubObj.prototype._downloadOS = function(filePath){
 		var dfd = utils.defer(),
-			dirName = path.dirname(filePath),
-			baseName = path.basename(filePath, path.extname(filePath)),
 			subPath,
-			baseDir = dirName + '/Subs/',
 			me = this
 		;
-
-		if(!fs.existsSync(baseDir)){
-			try{
-				fs.mkdirSync(baseDir);
-			}catch(e){
-				baseDir = os.tmpdir() + '/VPlayer3D.Subs';
-				fs.mkdirSync(baseDir);
-			}
-		}
-		subPath = getSubPath(baseDir, baseName, this.languageId);
 
 		if(this.downloaded){
 			dfd.resolve(this.fsPath);
 		} else {
+
+			subPath = this._getPathToDownload(filePath);
+
 			opensubtitles.downloader.once('downloading', function(data){
-				app.trigger('downloadSubtitle');
+				app.trigger('downloadSubtitle', data);
 			});
 			opensubtitles.downloader.once('downloaded', function(data){
 				console.log('DOWNLOADED', data);
@@ -170,6 +195,61 @@ define([
 		}
 
 		return dfd.promise;
+	};
+
+	SubObj.prototype._downloadSubDB = function(filePath){
+		var dfd = utils.defer(),
+			subPath,
+			me = this
+		;
+
+		if(this.downloaded){
+			dfd.resolve(this.fsPath);
+		} else {
+
+			subPath = this._getPathToDownload(filePath);
+
+			this.rawData.subdb.api.download_subtitle(
+				this.rawData.hash,
+				this.rawData.lang,
+				subPath,
+				function(err, res){
+					if(err){
+						dfd.reject();
+						console.error('Subtitle Not Downloaded', me.id, err);
+						return;
+					}
+
+					console.log('DOWNLOADED', res);
+
+					me.fsPath = subPath;
+					me.downloaded = true;
+
+					dfd.resolve(subPath);
+				}
+			);
+		}
+
+		return dfd.promise;
+	};
+
+	SubObj.prototype._getPathToDownload = function(filePath){
+		var baseName = path.basename(filePath, path.extname(filePath)),
+			dirName = path.dirname(filePath),
+			baseDir = dirName + '/Subs/'
+		;
+
+		if(!fs.existsSync(baseDir)){
+			try{
+				fs.mkdirSync(baseDir);
+			}catch(e){
+				baseDir = os.tmpdir() + '/VPlayer3D.Subs';
+				fs.mkdirSync(baseDir);
+			}
+		}
+
+
+		return getSubPath(baseDir, baseName, this.languageId);
 	};
 
 	function getSubPath(basePath, baseName, langId){

@@ -11,7 +11,8 @@ define([], function(){
 	var path = require('path'),
 		fs = require('fs'),
 		os = require('os'),
-		Q = require('q')
+		Q = require('q'),
+		iso6392 = require('iso-639-2')
 	;
 
 	var utils = {
@@ -186,13 +187,58 @@ define([], function(){
 			return Q.defer();
 		},
 
+		promiseAll: function(promises){
+			return Q.all(promises);
+		},
+
+		/**
+		 * Returns a function when called will call cbk and returns a promise
+		 * to be chained in a defered/promise action
+		 * @param  {[type]} cbk [description]
+		 * @return {Function}     [description]
+		 */
+		wrapPromise: function(ctx, cbk){
+			var dfd = Q.defer(),
+				args = Array.prototype.slice.call(arguments, 0)
+			;
+			ctx = args.shift();
+			cbk = args.shift();
+			args.push(function(){
+				dfd.resolve(Array.prototype.slice.call(arguments, 0));
+			});
+
+			return function(){
+				cbk.apply(ctx, args);
+
+				return dfd.promise;
+			};
+		},
+
 		guid: function() {
+			/* jshint ignore:start */
 			var d = new Date().getTime();
 			return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
 				var r = (d + Math.random() * 16) % 16 | 0;
 				d = Math.floor(d/16);
 				return (c == 'x' ? r : (r & 0x7 | 0x8)).toString(16);
 			});
+			/* jshint ignore:end */
+		},
+
+		iso6391to6392: function(langIso6391){
+			var obj;
+			Object
+				.keys(iso6392.all())
+					.every(function(i){
+						var lang = iso6392.get(i);
+						obj = lang.iso6391 === langIso6391 ? lang : null;
+						if(!!obj){
+							obj.iso6392 = i;
+						}
+						return !obj;
+					})
+			;
+			return obj;
 		}
 
 	};

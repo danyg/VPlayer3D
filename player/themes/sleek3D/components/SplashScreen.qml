@@ -10,14 +10,14 @@ VPlayer3DItems.BindedItem {
 
 	property alias fontColor: openingtext.color
 	property alias fontShadow: loadingFont.styleColor
-	property alias iconOpacity: playerlogo.opacity
 	property alias changeText: loadingFont.text
 
 	property var eye;
 
 	anchors.fill: parent
-	// visible: vlcPlayer.state < 3 ? true : false
+
 	visible: vlcPlayer.state <= 1 || vlcPlayer.state >= 6;
+
 	// If Playlist is Open Show Top Text
 	Text {
 		id: openingtext
@@ -42,12 +42,12 @@ VPlayer3DItems.BindedItem {
 			anchors.fill: parent
 			anchors.top: parent.top
 			anchors.horizontalCenter: parent.horizontalCenter
+			opacity: .4;
 
 			fillMode: Image.PreserveAspectFit;
 
 			source: '../images/Logo' + (root.eye === VPlayer3D.Settings3D.c_LEFT_EYE ? 'L' : 'R') + '.png'
 			// source: '../images/arrow.png';
-			opacity: .5;
 
 			Behavior on opacity { PropertyAnimation { duration: 2000} }
 		}
@@ -69,16 +69,5 @@ VPlayer3DItems.BindedItem {
 			styleColor: UI.colors.fontShadow
 		}
 
-		Timer {
-			id: timer;
-			interval: 2500;
-			running: root.visible;
-			repeat: true;
-			triggeredOnStart: true;
-
-			onTriggered: {
-				playerlogo.opacity = playerlogo.opacity !== .5 ? .5 : .2;
-			}
-		}
 	}
 }
