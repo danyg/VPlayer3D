@@ -18,13 +18,16 @@
 		"plugin": true
 	},
 	"dependencies": {
+		"dgsubtitle": "0.0.9",
 		"dgsubtitle": "https://github.com/danyg/subtitle.js.git",
 		"iconv-lite": "^0.4.10",
 		"is-utf8": "^0.2.0",
 		"iso-639-2": "^0.2.0",
-		"nw": "^0.12.2",
 		"opensubtitles-client": "^2.2.0",
 		"q": "^1.4.1",
 		"subdb": "https://github.com/danyg/node-subdb-api.git"
+	},
+	"devDependencies": {
+		"nw": "^0.12.2"
 	}
 }
