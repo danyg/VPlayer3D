@@ -43,6 +43,11 @@ define([
 	 */
 	Subtitles.prototype._onNewMedia = function(data){
 		this._currentMedia = data;
+
+		if(data.mrl.indexOf('http') === 0){
+			return;
+		}
+
 		var filePath = utils.toPath(data.mrl),
 			dirPath = path.dirname(filePath),
 			list,

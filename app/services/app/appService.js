@@ -36,36 +36,6 @@ define([
 		});
 		this.player = wjs('#webchimera');
 		this.player.onMessage(this._onMessage.bind(this));
-/*
-		var BASE = 'Z:/';
-		var fs = require('fs');
-		if(fs.existsSync('Z:/')){
-			BASE = 'Z:/';
-		} else {
-			BASE = 'D:/Pelis/';
-		}
-
-		this.playlist.push({
-			url: 'file:///' + BASE + '/Jupiter Ascending (2015) [1080p]/Jupiter.Ascending.2015.1080p.BluRay.x264.YIFY.mp4'
-		});
-		this.playlist.push({
-			url: 'file:///' + BASE + '/_3D_/Exodus Gods and Kings 2014 1080p 3D BRRip Half-OU x264 DTS-JYK/Exodus Gods and Kings 2014 1080p 3D BRRip Half-OU x264 DTS-JYK.mkv'
-		});
-		this.playlist.push({
-			url: 'file:///' + BASE + '/_3D_/Iron%20Man%203%20(2013)%20[3D]%20[HSBS]/Iron.Man.3.2013.1080p.3D.HSBS.BluRay.x264.YIFY.mp4'
-		});
-		this.playlist.push({
-			url: 'file:///' + BASE + '/_3D_/Seventh Son 2014 3D 1080p BRRip Half-OU x264 DTS-JYK/Seventh Son 2014 3D 1080p BRRip Half-OU x264 DTS-JYK.mkv'
-		});
-		this.playlist.push({
-			url: 'file:///' + BASE + '/_3D_/Jurassic Park 3D 1993 1080p BluRay Half-OU x264 x264 AAC - Ozlem/Jurassic Park 3D 1993 1080p BluRay Half-OU x264 x264 AAC - Ozlem.mp4'
-		});
-
-		this.playlist.push({
-			url: 'file:///' + BASE + '/_3D_/Guardians Of The Galaxy 3D 2014 1080p BRRip Half-OU x264 DTS-JYK/Guardians Of The Galaxy 3D 2014 1080p BRRip Half-OU x264 DTS-JYK.mkv'
-		});
-
-		this.player.addPlaylist(this.playlist);*/
 
 		this._dom = {};
 		requirejs(['domReady!'], this._onDomReady.bind(this));
@@ -113,7 +83,17 @@ define([
 		e.preventDefault();
 
 		try{
-			this._setPlaylist(e.dataTransfer.files);
+			if(e.dataTransfer.files.length > 0) {
+				this._setPlaylistFromEventDataTransfer(e.dataTransfer.files);
+			} else if (e.dataTransfer.items.length > 0) {
+				for(var i = 0, item; i < e.dataTransfer.items.length; i++){
+					item = e.dataTransfer.items[i];
+					if(item.type === 'text/uri-list'){
+						this._openDropItemURL(item);
+						break;
+					}
+				}
+			}
 		} catch (er){
 			console.log('Error Loading ', e.dataTransfer.files[0].path, er);
 		}
@@ -122,8 +102,16 @@ define([
 		return false;
 	};
 
+	App.prototype._openDropItemURL = function(item){
+		var me = this;
+		item.getAsString(function(data){
+			me._setPlaylistFromURL(data);
+		});
+	};
 
-	App.prototype._setPlaylist = function(eventDataTransfer){
+
+
+	App.prototype._setPlaylistFromEventDataTransfer = function(eventDataTransfer){
 		var i, file;
 		this.playlist = [];
 		for(i = 0; i < eventDataTransfer.length; i++){
@@ -132,6 +120,18 @@ define([
 				url: utils.toUrl(file.path)
 			});
 		}
+		this.player.clearPlaylist();
+		this.player.addPlaylist(this.playlist);
+		this.player.playItem(0);
+	};
+
+	App.prototype._setPlaylistFromURL = function(url){
+		this.playlist = [];
+
+		this.playlist.push({
+			url: url
+		});
+
 		this.player.clearPlaylist();
 		this.player.addPlaylist(this.playlist);
 		this.player.playItem(0);
